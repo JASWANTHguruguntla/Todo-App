@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/5f59ca6ad3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background: linear-gradient(135deg, #f9fbfe, #e6f6ff);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .todos-bg-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .todos-heading {
+            text-align: center;
+            font-family: "Lobster", cursive;
+            font-size: 48px;
+            color: #4c63b6;
+            margin-bottom: 30px;
+        }
+
+        .create-task-heading,
+        .todo-items-heading {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .create-task-heading-subpart,
+        .todo-items-heading-subpart {
+            font-weight: 500;
+            color: #4c63b6;
+        }
+
+        .todo-user-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e4e7eb;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .todo-user-input:focus {
+            border-color: #4c63b6;
+            outline: none;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #4c63b6, #6a82fb);
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(76, 99, 182, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(76, 99, 182, 0.4);
+        }
+
+        .todo-items-container {
+            list-style: none;
+            padding: 0;
+        }
+
+        .todo-item-container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .todo-item-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 18px;
+            color: #333;
+            flex-grow: 1;
+            margin: 0;
+        }
+
+        .checked {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .delete-icon {
+            color: #ff6b6b;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .delete-icon:hover {
+            color: #ff4757;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todos-bg-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="todos-heading">My Todo List</h1>
+                    <h1 class="create-task-heading">
+                        Create <span class="create-task-heading-subpart">Task</span>
+                    </h1>
+                    <input type="text" id="todoUserInput" class="todo-user-input" placeholder="What needs to be done?" />
+                    <button class="button" id="addTodoButton">Add Task</button>
+                    <h1 class="todo-items-heading">
+                        My <span class="todo-items-heading-subpart">Tasks</span>
+                    </h1>
+                    <p id="taskCounter" class="text-muted">0 tasks remaining</p>
+                    <ul class="todo-items-container" id="todoItemsContainer"></ul>
+                    <button class="button" id="saveTodoButton">Save Tasks</button>
+                    <button class="button mt-3" id="clearAllButton">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the task counter
+        function updateTaskCounter() {
+            const count = document.querySelectorAll(".todo-item-container").length;
+            document.getElementById("taskCounter").textContent = `${count} task${count !== 1 ? 's' : ''} remaining`;
+        }
+
+        // Function to add a new task
+        function addTodo() {
+            const todoUserInput = document.getElementById("todoUserInput");
+            const todoText = todoUserInput.value.trim();
+            if (todoText === "") {
+                alert("Please enter a valid task.");
+                return;
+            }
+
+            const todoItemsContainer = document.getElementById("todoItemsContainer");
+            const todoItemContainer = document.createElement("li");
+            todoItemContainer.classList.add("todo-item-container");
+
+            const checkboxInput = document.createElement("input");
+            checkboxInput.type = "checkbox";
+            checkboxInput.classList.add("checkbox-input");
+            checkboxInput.onclick = function() {
+                checkboxLabel.classList.toggle("checked", checkboxInput.checked);
+                updateTaskCounter();
+            };
+
+            const checkboxLabel = document.createElement("span");
+            checkboxLabel.textContent = todoText;
+            checkboxLabel.classList.add("checkbox-label");
+
+            const deleteIcon = document.createElement("i");
+            deleteIcon.classList.add("fas", "fa-trash", "delete-icon");
+            deleteIcon.onclick = function() {
+                todoItemsContainer.removeChild(todoItemContainer);
+                updateTaskCounter();
+            };
+
+            todoItemContainer.appendChild(checkboxInput);
+            todoItemContainer.appendChild(checkboxLabel);
+            todoItemContainer.appendChild(deleteIcon);
+            todoItemsContainer.appendChild(todoItemContainer);
+
+            todoUserInput.value = "";
+            updateTaskCounter();
+        }
+
+        // Function to save tasks to local storage
+        function saveTodos() {
+            const todoItems = document.querySelectorAll(".todo-item-container");
+            const todos = [];
+
+            todoItems.forEach((item) => {
+                const text = item.querySelector(".checkbox-label").textContent;
+                const completed = item.querySelector(".checkbox-input").checked;
+                todos.push({
+                    text,
+                    completed
+                });
+            });
+
+            localStorage.setItem("todos", JSON.stringify(todos));
+            alert("Tasks saved successfully!");
+        }
+
+        // Function to load tasks from local storage
+        function loadTodos() {
+            const todos = JSON.parse(localStorage.getItem("todos")) || [];
+            const todoItemsContainer = document.getElementById("todoItemsContainer");
+            todoItemsContainer.innerHTML = "";
+
+            todos.forEach((todo) => {
+                const todoItemContainer = document.createElement("li");
+                todoItemContainer.classList.add("todo-item-container");
+
+                const checkboxInput = document.createElement("input");
+                checkboxInput.type = "checkbox";
+                checkboxInput.classList.add("checkbox-input");
+                checkboxInput.checked = todo.completed;
+                checkboxInput.onclick = function() {
+                    checkboxLabel.classList.toggle("checked", checkboxInput.checked);
+                    updateTaskCounter();
+                };
+
+                const checkboxLabel = document.createElement("span");
+                checkboxLabel.textContent = todo.text;
+                checkboxLabel.classList.add("checkbox-label");
+                if (todo.completed) {
+                    checkboxLabel.classList.add("checked");
+                }
+
+                const deleteIcon = document.createElement("i");
+                deleteIcon.classList.add("fas", "fa-trash", "delete-icon");
+                deleteIcon.onclick = function() {
+                    todoItemsContainer.removeChild(todoItemContainer);
+                    updateTaskCounter();
+                };
+
+                todoItemContainer.appendChild(checkboxInput);
+                todoItemContainer.appendChild(checkboxLabel);
+                todoItemContainer.appendChild(deleteIcon);
+                todoItemsContainer.appendChild(todoItemContainer);
+            });
+
+            updateTaskCounter();
+        }
+
+        // Event listeners
+        document.getElementById("addTodoButton").addEventListener("click", addTodo);
+        document.getElementById("saveTodoButton").addEventListener("click", saveTodos);
+        document.getElementById("clearAllButton").addEventListener("click", function() {
+            if (confirm("Are you sure you want to delete all tasks?")) {
+                document.getElementById("todoItemsContainer").innerHTML = "";
+                localStorage.removeItem("todos");
+                updateTaskCounter();
+            }
+        });
+        document.getElementById("todoUserInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                addTodo();
+            }
+        });
+
+        // Load saved tasks when the page loads
+        window.onload = loadTodos;
+    </script>
+</body>
+
+</html>
