@@ -28,7 +28,7 @@ https://jaswanthguruguntla.github.io/Todo-App/
 
 ## 🔥 Usage
 - **Add a task:** Type in the input field and click **Add Task** or press `Enter`.
-- **Mark as completed:** Click the checkbox to strike through the task.
+- **Mark as completed:**Click the checkbox to strike through the task.
 - **Delete a task:** Click the trash icon next to a task.
 - **Save tasks:** Click **Save Tasks** to store them in local storage.
 - **Clear all tasks:** Click **Clear All** to remove all tasks.
